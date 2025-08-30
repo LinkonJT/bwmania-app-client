@@ -46,30 +46,52 @@ navigate ('/')
 
   }
 
-const handleGoogleSignIn=()=>{
+/***GoogleSignIn async-await method */
+const handleGoogleSignIn = async () => { //You define an async function. Using async means you can use await inside
+  try { //Start a try/catch block so if anything throws an error, you handle it in catch.
+    const result = await signInWithGoogle(); //Call your Firebase auth function (signInWithGoogle). Firebase opens the Google popup, the user logs in, and you await the result.The result contains result.user with email, name, photo, etc.
+    const u = result.user; //Extract the actual user object from Firebase
 
-    signInWithGoogle()
-    .then(()=>{
-        Swal.fire({
-  position: "center",
-  icon: "success",
-  title: "Google Sign UP successfull",
-  showConfirmButton: false,
-  timer: 1500
-});
-navigate ('/');
-})
-.catch((error)=>{
+    //Prepare a plain JS object with the user data.Take displayName, email, and photoURL from Firebase.If any are missing, fall back to defaults.Add role and timestamps so your backend has a complete record.
+    const newUser = {
+      name: u.displayName || "Google User",
+      email: u.email,
+      photoURL: u.photoURL || "",
+      role: "customer",
+      created_at: new Date().toISOString(),
+      last_log_in: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+
+    //Send a POST request to your backend at /users. method: "POST" means “create a new user”.headers tell the server it’s JSON.body is the stringified newUser object.
+    const res = await fetch("http://localhost:3000/users", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(newUser),
+    });
+
+    //Wait for the backend’s JSON response, then log it.This should show something like { acknowledged: true, insertedId: ... } if the backend actually saved it.
+    const data = await res.json();
+    console.log("User saved to DB (Google):", data);
 
     Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "SignUp failed",
-          text: error.message,
-        });
-})
+      position: "center",
+      icon: "success",
+      title: "Google Sign in successful",
+      showConfirmButton: false,
+      timer: 1500,
+    });
 
-}
+    navigate("/"); //Redirect the user back to 
+  } catch (error) { //If anything in the try fails (sign-in, fetch, etc.), show an error alert.
+    Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Google sign in failed",
+      text: error.message,
+    });
+  }
+};
 
 
     
