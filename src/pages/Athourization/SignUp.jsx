@@ -8,7 +8,7 @@ import { FcGoogle } from 'react-icons/fc';
 
 
 const SignUp = () => {
-
+const BASE = import.meta.env.VITE_API_BASE_URL
     const {createUser, signInWithGoogle} = useAuth();
     const navigate = useNavigate()
 
@@ -51,7 +51,7 @@ createUser(email, password)
         updated_at: new Date().toISOString(),
       };
 
-      return fetch("http://localhost:3000/users", {
+      return fetch(`${BASE}/users`, {
         method: "POST",
         headers: {
           "content-type": "application/json",

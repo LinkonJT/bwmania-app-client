@@ -5,8 +5,13 @@ import Home from "../pages/Home/Home";
 import SignUp from "../pages/Athourization/SignUp";
 import SignIn from "../pages/Athourization/SignIn";
 import About from "../pages/About";
-import AllProducts from "../pages/AllProducts";
-import AddProduct from "../pages/AddProduct";
+import AllProducts from "../pages/products/AllProducts";
+import AddProduct from "../pages/products/AddProduct";
+import ProductDetails from "../pages/products/ProductDetails";
+import EditProduct from "../pages/products/EditProduct";
+
+
+const BASE = import.meta.env.VITE_API_BASE_URL;
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +24,14 @@ export const router = createBrowserRouter([
         {path: '/about', element: <About></About>},
         {path: '/all-products', element: <AllProducts></AllProducts>},
         {path: '/add-products', element: <AddProduct></AddProduct>},
+        {path: '/product/:id', 
+          element: <ProductDetails></ProductDetails>,
+        loader: ({params})=>fetch(`${BASE}/product/${params.id}`)
+      },
+        {path: '/product/edit/:id', 
+          element: <EditProduct></EditProduct>,
+        loader: ({params})=>fetch(`${BASE}/product/${params.id}`)
+      },
 
     ]
   },

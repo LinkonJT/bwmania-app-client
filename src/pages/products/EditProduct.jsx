@@ -2,44 +2,47 @@ import React from 'react';
 import { Button, Card, Label, TextInput } from "flowbite-react";
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import { useLoaderData, useNavigate } from 'react-router';
 
-const AddProduct = () => {
+const EditProduct = () => {
+
+    const product = useLoaderData();
+    const navigate = useNavigate()
+const BASE = import.meta.env.VITE_API_BASE_URL
 
       const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({defaultValues: { //react hook form method to set defaultvalues
+    title: product.title,
+    photoURL: product.photoURL,
+    price: product.price,
+    description: product.description
+  }});
 
   const onSubmit = async (data) => {
     try{
-// ensure price is a number
-    // data.price = parseFloat(data.price); //use this if in the formfield type='number' is not set.
-
-
-//add extra fields that aren't in the form
-
 const payload = {
   ...data, //form input data
-   created_at: new Date().toISOString(),       // first publish time
   updated_at: new Date().toISOString(),          // last modified time
-  status: 'active',
 }
 
-    const res = await fetch('http://localhost:3000/products', {
-      method : 'POST',
+    const res = await fetch(`${BASE}/products/${product._id}`, {
+      method : 'PATCH',
       headers : {'Content-Type' : 'application/json'},
       body: JSON.stringify(payload)
 
     })
 
     const result = await res.json()
-    console.log('Saved:', result);
-    toast.success('Data Saved to MongoDB')
+    console.log('Updated:', result);
+    toast.success('Updated Data Saved to MongoDB')
+    navigate(`/product/${product._id}`); // Redirect to the updated product details page
 
     }catch (error){
          console.error(error);
-toast.error('Error Saving Product')
+toast.error('Error Saving Updated Product')
     }
   }
 
@@ -124,7 +127,7 @@ toast.error('Error Saving Product')
       {errors.description && <p role="alert" className="text-red-500 text-sm">{errors.description.message}</p>}
     </div>
 
-    <Button type="submit">Submit</Button>
+    <Button type="submit">Save Changes</Button>
   </div>
 </form>
 
@@ -132,4 +135,4 @@ toast.error('Error Saving Product')
     );
 };
 
-export default AddProduct;
+export default EditProduct;
