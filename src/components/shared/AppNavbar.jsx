@@ -63,21 +63,28 @@ const AppNavbar = () => {
       </NavbarBrand>
       <div className="flex md:order-2">
         {user ? (
-          <Button onClick={handleSignOut}>Sign Out</Button>
+          <>
+         <div className="flex gap-2 items-center ">
+           <span className="p-2 text-gray-200">{user.displayName}</span>
+          <Button className="btn btn-sm" onClick={handleSignOut}>Sign Out</Button>
+         </div>
+
+          </>
+          
         ) : (
           <Link to="/signIn">
-            <Button>Sign in</Button>
+            <Button className="btn btn-xl">Sign in</Button>
           </Link>
         )}
 
         <NavbarToggle />
       </div>
       <NavbarCollapse>
-        <NavLink className="hover:bg-amber-400 text-gray-500 hover:text-white p-1 rounded-sm" to="/" active>Home</NavLink>
-        <NavLink className="hover:bg-amber-400 text-gray-500 hover:text-white p-1 rounded-sm" to="/about">About</NavLink>
-        <NavLink className="hover:bg-amber-400 text-gray-500 hover:text-white p-1 rounded-sm" to="/all-products">All Products</NavLink>
-        <NavLink className="hover:bg-amber-400 text-gray-500 hover:text-white p-1 rounded-sm" to="/add-products">Add Products</NavLink>
-        <NavLink className="hover:bg-amber-400 text-gray-500 hover:text-white p-1 rounded-sm" href="#">Contact</NavLink>
+        <NavLink className="hover:bg-blue-400 text-gray-500 hover:text-white p-1 rounded-sm" to="/" active>Home</NavLink>
+        <NavLink className="hover:bg-blue-400 text-gray-500 hover:text-white p-1 rounded-sm" to="/about">About</NavLink>
+        <NavLink className="hover:bg-blue-400 text-gray-500 hover:text-white p-1 rounded-sm" to="/all-products">All Products</NavLink>
+        <NavLink className="hover:bg-blue-400 text-gray-500 hover:text-white p-1 rounded-sm" to="/add-products">Add Products</NavLink>
+        <NavLink className="hover:bg-blue-400 text-gray-500 hover:text-white p-1 rounded-sm" href="#">Contact</NavLink>
       </NavbarCollapse>
     </Navbar>
   );

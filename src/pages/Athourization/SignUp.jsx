@@ -28,7 +28,7 @@ const {name, photoURL, email, password} = Object.fromEntries(formData.entries())
 /**password  */
 
     
-
+/**Promise chaining style */
 /******signup and create user in firebase */
     //call createuser
 
