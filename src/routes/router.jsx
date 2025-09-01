@@ -9,6 +9,8 @@ import AllProducts from "../pages/products/AllProducts";
 import AddProduct from "../pages/products/AddProduct";
 import ProductDetails from "../pages/products/ProductDetails";
 import EditProduct from "../pages/products/EditProduct";
+import AllCars from "../pages/cars/AllCars";
+import AddCar from "../pages/cars/AddCar";
 
 
 const BASE = import.meta.env.VITE_API_BASE_URL;
@@ -32,6 +34,11 @@ export const router = createBrowserRouter([
           element: <EditProduct></EditProduct>,
         loader: ({params})=>fetch(`${BASE}/product/${params.id}`)
       },
+/**ALl cars using Hook-form, Axios, tanstack-query */
+{path: '/all-cars', element: <AllCars></AllCars>},
+{path: '/add-cars', element: <AddCar></AddCar>},
+
+
 
     ]
   },

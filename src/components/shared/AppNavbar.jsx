@@ -84,7 +84,9 @@ const AppNavbar = () => {
         <NavLink className="hover:bg-blue-400 text-gray-500 hover:text-white p-1 rounded-sm" to="/about">About</NavLink>
         <NavLink className="hover:bg-blue-400 text-gray-500 hover:text-white p-1 rounded-sm" to="/all-products">All Products</NavLink>
         <NavLink className="hover:bg-blue-400 text-gray-500 hover:text-white p-1 rounded-sm" to="/add-products">Add Products</NavLink>
-        <NavLink className="hover:bg-blue-400 text-gray-500 hover:text-white p-1 rounded-sm" href="#">Contact</NavLink>
+                <NavLink className="hover:bg-blue-400 text-gray-500 hover:text-white p-1 rounded-sm" to="/all-cars">All Cars</NavLink>
+        <NavLink className="hover:bg-blue-400 text-gray-500 hover:text-white p-1 rounded-sm" to="/add-cars">Add Cars</NavLink>
+
       </NavbarCollapse>
     </Navbar>
   );
