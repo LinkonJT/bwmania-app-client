@@ -10,6 +10,7 @@ const SignIn = () => {
 
  const {signInUser, signInWithGoogle} = useAuth();
     const navigate = useNavigate()
+    const BASE = import.meta.env.VITE_API_BASE_URL
 
 
 
@@ -64,7 +65,7 @@ const handleGoogleSignIn = async () => { //You define an async function. Using a
     };
 
     //Send a POST request to your backend at /users. method: "POST" means “create a new user”.headers tell the server it’s JSON.body is the stringified newUser object.
-    const res = await fetch("http://localhost:3000/users", {
+    const res = await fetch(`${BASE}/users`, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(newUser),

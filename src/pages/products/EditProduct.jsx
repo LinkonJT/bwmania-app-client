@@ -25,21 +25,18 @@ const BASE = import.meta.env.VITE_API_BASE_URL
     try{
 const payload = {
   ...data, //form input data
-  updated_at: new Date().toISOString(),          // last modified time
+  updated_at: new Date().toISOString(), // last modified time
 }
 
     const res = await fetch(`${BASE}/products/${product._id}`, {
       method : 'PATCH',
       headers : {'Content-Type' : 'application/json'},
       body: JSON.stringify(payload)
-
     })
-
     const result = await res.json()
     console.log('Updated:', result);
     toast.success('Updated Data Saved to MongoDB')
     navigate(`/product/${product._id}`); // Redirect to the updated product details page
-
     }catch (error){
          console.error(error);
 toast.error('Error Saving Updated Product')
@@ -48,7 +45,7 @@ toast.error('Error Saving Updated Product')
 
     return (
     <Card>
-        <h1 className='text-white text-sm text-center'>ADD Products Form</h1>
+        <h1 className='text-white text-sm text-center'> Edit Products Form</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="flex max-w-md flex-col gap-4">
   <div className="flex max-w-md flex-col gap-4">
 
