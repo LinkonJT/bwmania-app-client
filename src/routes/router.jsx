@@ -12,6 +12,8 @@ import EditProduct from "../pages/products/EditProduct";
 import AllCars from "../pages/cars/AllCars";
 import AddCar from "../pages/cars/AddCar";
 import CarDetails from "../pages/cars/CarDetails";
+import EditCar from "../pages/cars/EditCar";
+
 
 
 const BASE = import.meta.env.VITE_API_BASE_URL;
@@ -40,6 +42,9 @@ export const router = createBrowserRouter([
 {path: '/add-cars', element: <AddCar></AddCar>},
 {path: '/car/:id',
   element: <CarDetails></CarDetails>,
+loader: ({params})=>fetch(`${BASE}/car/${params.id}`)},
+{path: '/cars/edit/:id',
+  element: <EditCar></EditCar>,
 loader: ({params})=>fetch(`${BASE}/car/${params.id}`)},
 
 

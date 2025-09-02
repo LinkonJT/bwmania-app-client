@@ -34,7 +34,7 @@ const {
       onSuccess: () => {
         toast.success("Car added successfully");
         // Optionally, you can invalidate or refetch any relevant queries here
-        reset()
+        reset();
       },
       onError: (error) => {
         const errorMessage = error.res?.data?.message || error.message || "Failed to add car";
