@@ -2,16 +2,54 @@ import React from 'react';
 import { Button, Card, Label, TextInput } from "flowbite-react";
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import useAxiosInstance from '../../hooks/useAxiosInstance';
+import { useMutation } from '@tanstack/react-query';
+
+
 const AddCar = () => {
+
+  const axiosInstance = useAxiosInstance()
 
 const {
     register,
     handleSubmit,
-    watch,
+    reset,
     formState: { errors },
   } = useForm()
 
- const onSubmit = (data) => console.log(data)
+// UseMutation hook for POST request to add a new car
+  const mutation = useMutation({
+    mutationFn: async (data) => {
+      // Prepare the car data, add created_at field
+      const carData = {
+        ...data,
+        created_at: new Date().toISOString(),  // Only set created_at on creation
+      };
+
+          // POST request to API
+      const res = await axiosInstance.post('/cars', carData);
+      console.log(res.data); // Log response data to check
+      return res.data;  // Return the response data from the API
+    },
+      onSuccess: () => {
+        toast.success("Car added successfully");
+        // Optionally, you can invalidate or refetch any relevant queries here
+        reset()
+      },
+      onError: (error) => {
+        const errorMessage = error.res?.data?.message || error.message || "Failed to add car";
+        toast.error(`Error adding car: ${errorMessage}`);
+
+        // toast.error(`Error adding car: ${error.message}`); //or just use this simpler version
+        console.error(error); // Keep for debugging
+      },
+     
+    
+});
+
+  const onSubmit = (data) => {
+    mutation.mutate(data);  // Trigger the mutation with the form data
+  };
 
     return (
        <Card>
@@ -94,7 +132,8 @@ const {
             {errors.description && <p role="alert" className="text-red-500 text-sm">{errors.description.message}</p>}
           </div>
       
-          <Button type="submit">Submit</Button>
+          <Button type="submit" disabled={mutation.isLoading}>
+            {mutation.isLoading? 'Adding..' : 'Submit'}</Button>
         </div>
       </form>
       

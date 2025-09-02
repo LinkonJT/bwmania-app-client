@@ -20,8 +20,6 @@ const formattedDate = format(new Date(product.created_at), "dd-mm-yyyy") //mehot
   const BASE = import.meta.env.VITE_API_BASE_URL;
 
   const handleDelete = async ()=>{
-
-
     const result = await Swal.fire({
         title: "Are you sure?",
         // text: "You won't be able to revert this!",
